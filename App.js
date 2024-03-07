@@ -7,11 +7,17 @@ export default App = () => {
   const [passError, setPassError] = useState(null);
 
 const handleSubmit = () => {
-  !expediente === null && !password === null ? Alert.alert('Usuario autenticado'): Alert.alert('Usuario no autenticado');
+  expediente !== null && password !== null ? Alert.alert('Usuario autenticado'): Alert.alert('Usuario no autenticado');
 }
 
 const changePassword = (password) =>{
-  password.length <= 8 ? setPassword(password): setPassError("Debes tener al menos 8 caracteres en la contraseña")
+  if(password.length>=8){
+    setPassword(password)
+    setPassError(null)
+  }else{
+    setPassword(null)
+    setPassError("Debes tener al menos 8 carácteres en la contraseña")
+  }
 }
 
   return[
@@ -21,7 +27,7 @@ const changePassword = (password) =>{
         <TextInput
           style = {styles.textInput}
           placeholder = 'Expediente'
-          maxLenght = {6}
+          maxLength = {6}
           keyboardType = 'numeric'
           onChangeText = {(expediente) =>{
             setExpediente(expediente)
@@ -31,12 +37,12 @@ const changePassword = (password) =>{
         <TextInput
           style = {styles.textInput}
           placeholder = 'Password'
-          maxLenght = {16}
+          maxLength = {16}
           secureTextEntry = {true}
           onChangeText = {changePassword}
           value = {password}
         />
-        {passError && <Text style={styles.title}>{passError}</Text>}
+        {passError && <Text style={styles.error}>{passError}</Text>}
       </View>
       <View style = {styles.buttonContainer}>
         <Button title="Iniciar Sesion" onPress={handleSubmit} style = {styles.button}>
@@ -64,7 +70,7 @@ const styles = StyleSheet.create({
     width:'80%',
     borderBlockColor:'white',
     borderRadius: 5,
-    color:'white'
+    color:'white',
   },
   buttonContainer:{
     justifyContent:'center',
@@ -79,5 +85,13 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'white',
     borderRadius: 5
+  },
+  error:{
+    width:'100%',
+    color: 'white',
+    fontSize: 12,
+    marginLeft: 10,
+    marginBottom: 15,
+    textAlign: 'center'
   }
 })
